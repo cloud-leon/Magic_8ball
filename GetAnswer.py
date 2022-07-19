@@ -1,6 +1,7 @@
 import requests
 import pprint
 
+
 def is_question(question):
     question_words = ['will', 'is', 'did', 'would']
     for word in question_words:
@@ -13,12 +14,15 @@ def is_question(question):
         return False
     return True
 
+
 def get_answer(question):
     if not is_question(question):
         exit()
-    response = requests.get('https://8ball.delegator.com/magic/JSON/' + question)
+    url = 'https://8ball.delegator.com/magic/JSON/'
+    response = requests.get(url + question)
     data = response.json()
     pprint.pprint(data)
     return data['magic']
+
 
 get_answer('Will this work?')
