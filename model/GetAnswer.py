@@ -13,12 +13,12 @@ def get_connection(db_file):
     return conn
 
 
-def create_tables(db_file):
-    conn = get_connection(db_file)
+def create_tables():
+    conn = get_connection('database.db')
     cursor = conn.cursor()
     users_command = ("CREATE TABLE IF NOT EXISTS users(" +
                 "id integer" +
-                "username text" +
+                "email text" +
                 "hashed_passwords text);")
     questions_command = ("CREATE TABLE IF NOT EXISTS questions(" +
                 "id integer" +
@@ -31,26 +31,31 @@ def create_tables(db_file):
     conn.commit()
 
 
-def insert_user(db_file, id, username, hashed_pswd):
-    conn = get_connection(db_file)
+def insert_user(id, email, hashed_pswd):
+    conn = get_connection('database.db')
     cursor = conn.cursor()
-    command = ("UPDATE users" +
-                "SET username = ? ," +
-                "hashed_password = ?" +
-                "WHERE id = ?;")
-    cursor.excecute(command, (username, hashed_pswd, id))
+    command = ("INSERT INTO users(id, email, hashed_password)" +
+                "VALUES(?, ?, ?);")
+    cursor.excecute(command, (id, email, hashed_pswd))
     conn.commit()
 
 
-def insert_question(db_file, id, user_id, question, answer, date):
-    conn = get_connection(db_file)
+def find_user(id, email, hashed_pswd):
+    conn = get_connection('database.db')
     cursor = conn.cursor()
-    command = ("UPDATE questions" +
-                "SET user_id = ? ," +
-                "question = ? ," +
-                "answer = ? ," +
-                "date = ?" +
-                "WHERE id = ?;")
+    command = ("SELECT * FROM users WHERE id=?;")
+    cursor.excecute(command)
+    row = cursor.fetchall()[0]
+    if row[1] == email and row[2] == hashed_pswd:
+        return True
+    return False
+
+
+def insert_question(id, user_id, question, answer, date):
+    conn = get_connection('database.db')
+    cursor = conn.cursor()
+    command = ("INSERT INTO questions(id, user_id, question, answer, date)" +
+                "VALUES(?, ?, ?, ?, ?);")
     cursor.excecute(command, user_id, question, answer, date, id)
     conn.commit()
 
@@ -68,13 +73,20 @@ def is_question(question):
         return False
     return True
 
+<<<<<<< HEAD
 def get_answer(question):
+=======
+
+def get_answer(question, user):
+>>>>>>> 0fac7be69ba1ecbb9761a7c3e1ee68138d308718
     if not is_question(question):
-        exit()
+        return False
     url = 'https://8ball.delegator.com/magic/JSON/'
     response = requests.get(url + question)
     data = response.json()
-    return data['magic']
+    db_file = 'database.db'
+    create_tables(db_file)
+    return data['magic']['answer']
 
 def update_count():
     if is_question:
