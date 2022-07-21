@@ -10,7 +10,7 @@ also has links to signup/login to account -->
 <body class="background">
     <!-- Login Button on Header -->
     <div class="div-tab">
-        <a href="" class="login-button">Login/Register</a>
+        <a href="login.html" class="login-button">Login/Register</a>
     </div>
 
     <!-- Page Title and Instructions -->
@@ -27,7 +27,7 @@ also has links to signup/login to account -->
             <div class="img"></div>
         </div>
         <div class="qform">
-            <form action="">
+            <form action="{{ url_for('user_home') }}" method="POST">
                     <label for="field">Question:</label>
                     <input type="text" class="text-field" maxlength="75" placeholder="Should I buy the red version of my favorite shirt?" required>
                     <input type="submit" class="sumbit-button" value="Guide Me">
@@ -35,7 +35,5 @@ also has links to signup/login to account -->
         </div>
     </div>
     </span>
-
-    <script src="" type=""></script>
 </body>
 </html>

@@ -1,7 +1,9 @@
+from ssl import AlertDescription
 import requests
 import sqlite3
 import time
 
+count = 0
 def get_connection(db_file):
     try:
         conn = sqlite3.connect(db_file)
@@ -24,8 +26,8 @@ def create_tables():
                 "question text" +
                 "answer text" +
                 "date text);")
-    cursor.excecute(users_command)
-    cursor.excecute(questions_command)
+    cursor.execute(users_command)
+    cursor.execute(questions_command)
     conn.commit()
 
 
@@ -34,7 +36,7 @@ def insert_user(id, email, hashed_pswd):
     cursor = conn.cursor()
     command = ("INSERT INTO users(id, email, hashed_password)" +
                 "VALUES(?, ?, ?);")
-    cursor.excecute(command, (id, email, hashed_pswd))
+    cursor.execute(command, (id, email, hashed_pswd))
     conn.commit()
 
 
@@ -42,7 +44,7 @@ def find_user(id, email, hashed_pswd):
     conn = get_connection('database.db')
     cursor = conn.cursor()
     command = ("SELECT * FROM users WHERE id=?;")
-    cursor.excecute(command)
+    cursor.execute(command)
     row = cursor.fetchall()[0]
     if row[1] == email and row[2] == hashed_pswd:
         return True
@@ -54,22 +56,22 @@ def insert_question(id, user_id, question, answer, date):
     cursor = conn.cursor()
     command = ("INSERT INTO questions(id, user_id, question, answer, date)" +
                 "VALUES(?, ?, ?, ?, ?);")
-    cursor.excecute(command, user_id, question, answer, date, id)
+    cursor.execute(command, user_id, question, answer, date, id)
     conn.commit()
 
 
 def is_question(question):
-    question_words = ['will', 'is', 'did', 'would']
+    question_words = ['will', 'is', 'did', 'would', "who", "what", "where", "when", 
+    "how", "why", "can", "may", "won't","doesn't"]
     for word in question_words:
-        if word in str(question).lower():
-            has_question_word = True
+        if word not in str(question).lower():
+            has_question_word = False
             break
-        has_question_word = False
-    if '?' not in str(question) or not has_question_word:
+        has_question_word = True
+    if question.strip().endswith("?") is False or not has_question_word:
         print("wrong")
         return False
     return True
-
 
 def get_answer(question, user):
     if not is_question(question):
@@ -83,3 +85,9 @@ def get_answer(question, user):
     create_tables(db_file)
     return data['magic']['answer']
 
+
+def update_count():
+    if is_question:
+        count + 1
+    if count == 7:
+        AlertDescription("last question for the day/session")
