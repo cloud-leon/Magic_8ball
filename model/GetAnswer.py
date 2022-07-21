@@ -1,7 +1,9 @@
+from ssl import AlertDescription
 import requests
 import sqlite3
 import time
 
+count = 0
 def get_connection(db_file):
     try:
         conn = sqlite3.connect(db_file)
@@ -59,19 +61,24 @@ def insert_question(id, user_id, question, answer, date):
 
 
 def is_question(question):
-    question_words = ['will', 'is', 'did', 'would']
+    question_words = ['will', 'is', 'did', 'would', "who", "what", "where", "when", 
+    "how", "why", "can", "may", "won't","doesn't"]
     for word in question_words:
-        if word in str(question).lower():
-            has_question_word = True
+        if word not in str(question).lower():
+            has_question_word = False
             break
-        has_question_word = False
-    if '?' not in str(question) or not has_question_word:
+        has_question_word = True
+    if question.strip().endswith("?") is False or not has_question_word:
         print("wrong")
         return False
     return True
 
+<<<<<<< HEAD
+def get_answer(question):
+=======
 
 def get_answer(question, user):
+>>>>>>> 0fac7be69ba1ecbb9761a7c3e1ee68138d308718
     if not is_question(question):
         return False
     url = 'https://8ball.delegator.com/magic/JSON/'
@@ -81,3 +88,12 @@ def get_answer(question, user):
     create_tables(db_file)
     return data['magic']['answer']
 
+<<<<<<< HEAD
+=======
+def update_count():
+    if is_question:
+        count + 1
+    if count == 7:
+        AlertDescription("last question for the day/session")
+
+>>>>>>> master
