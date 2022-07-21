@@ -1,0 +1,69 @@
+@import "layout.css";
+
+.background {
+    overflow: hidden;
+    background-image: url("userimg.jpg");
+    background-position: 20% 20%;
+    padding: auto;
+}
+
+.div-user-space {
+    position: -webkit-sticky;
+    display: block;
+    max-height: 85%;
+    min-height: 80%;
+    min-width: 90%;
+    max-width: 92%;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 18px;
+}
+
+.sign-out {
+
+}
+
+
+.div-user-qs {
+    position: -webkit-sticky;
+    display: block;
+    height: 90%;
+    width: 88%;
+    margin: auto;
+    text-align: center;
+    background-color: #251A4D;
+    border-radius: 18px;
+    padding-top: 5px;
+}
+
+.heading {
+    text-align: center;
+    margin: 20px auto 40px auto;
+    color: #000;
+    font-family: Varela, sans-serif;
+    font-size: 48px;
+}
+
+.caption {
+    text-align: center;
+    margin: 10px 0px 20px 20px;
+    color: #000;
+    font-family: Varela, sans-serif;
+    font-size: 24px;
+    color: #fff;
+}
+
+.div-past-qs {
+    position: -webkit-sticky;
+    display: block;
+    height: 300px;
+    width: 88%;
+    margin: 20px auto;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 18px;
+    border: 3px solid #000;
+    overflow-y: auto;
+}

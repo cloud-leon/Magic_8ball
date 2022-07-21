@@ -24,5 +24,3 @@ def get_answer(question):
     pprint.pprint(data)
     return data['magic']
 
-
-get_answer('Will this work?')
