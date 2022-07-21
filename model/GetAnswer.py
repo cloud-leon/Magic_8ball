@@ -12,6 +12,15 @@ def get_connection(db_file):
         exit()
     return conn
 
+def get_history(id):
+    conn = get_connection('database.db')
+    cursor = conn.cursor()
+    command = ("SELECT * FROM questions WHERE id=?;")
+    cursor.execute(command, id)
+    rows = cursor.fetchall()
+    data = []
+    for row in rows:
+        data.append(row)
 
 def create_tables():
     conn = get_connection('database.db')

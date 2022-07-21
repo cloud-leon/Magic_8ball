@@ -40,7 +40,11 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         if find_user(int(hash(form.email.data))[1:], form.email.data, hash(form.password.data)):
+<<<<<<< HEAD
             global id 
+=======
+            global id
+>>>>>>> 398a3a19ffce6d11ba9d06f71775c34543fb26ef
             id = int(hash(form.email.data))[1:]
             return redirect(url_for('home.html'))
         else:
