@@ -12,6 +12,15 @@ def get_connection(db_file):
         exit()
     return conn
 
+def get_history(id):
+    conn = get_connection('database.db')
+    cursor = conn.cursor()
+    command = ("SELECT * FROM questions WHERE id=?;")
+    cursor.execute(command, id)
+    rows = cursor.fetchall()
+    data = []
+    for row in rows:
+        data.append(row)
 
 def create_tables():
     conn = get_connection('database.db')
@@ -26,8 +35,8 @@ def create_tables():
                 "question text" +
                 "answer text" +
                 "date text);")
-    cursor.excecute(users_command)
-    cursor.excecute(questions_command)
+    cursor.execute(users_command)
+    cursor.execute(questions_command)
     conn.commit()
 
 
@@ -36,7 +45,7 @@ def insert_user(id, email, hashed_pswd):
     cursor = conn.cursor()
     command = ("INSERT INTO users(id, email, hashed_password)" +
                 "VALUES(?, ?, ?);")
-    cursor.excecute(command, (id, email, hashed_pswd))
+    cursor.execute(command, (id, email, hashed_pswd))
     conn.commit()
 
 
@@ -44,7 +53,7 @@ def find_user(id, email, hashed_pswd):
     conn = get_connection('database.db')
     cursor = conn.cursor()
     command = ("SELECT * FROM users WHERE id=?;")
-    cursor.excecute(command)
+    cursor.execute(command)
     row = cursor.fetchall()[0]
     if row[1] == email and row[2] == hashed_pswd:
         return True
@@ -56,7 +65,7 @@ def insert_question(id, user_id, question, answer, date):
     cursor = conn.cursor()
     command = ("INSERT INTO questions(id, user_id, question, answer, date)" +
                 "VALUES(?, ?, ?, ?, ?);")
-    cursor.excecute(command, user_id, question, answer, date, id)
+    cursor.execute(command, user_id, question, answer, date, id)
     conn.commit()
 
 
