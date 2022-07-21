@@ -32,7 +32,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         if find_user(int(hash(form.email.data))[1:], form.email.data, hash(form.password.data)):
-            global id = int(hash(form.email.data))[1:]
+            global id
+            id = int(hash(form.email.data))[1:]
             return redirect(url_for('home.html'))
         else:
             flash(f'No account found for {form.email.data} with the given password')
