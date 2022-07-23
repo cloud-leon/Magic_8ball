@@ -12,7 +12,7 @@ app.config['SECRET_KEY'] = ''
 
 # App Home Page; Search bar and results
 @app.route("/")
-@app.route("/home")
+@app.route("/home", methods=['GET', 'POST'])
 def search():
     create_tables()
     return render_template('home.html', subtitle='Home Page', text='This is the home page')
@@ -23,7 +23,6 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         flash(f'Account created for {form.email.data}!', 'success')
-<<<<<<< HEAD
         return redirect(url_for('user-page.html'))
     return render_template('register.html', title='Register', form=form)
 
@@ -31,26 +30,27 @@ def register():
 @app.route("/user")
 def user_home():
     return render_template('user-page.html', subtitle='User Account Page', text='This is the user\'s home page')
-  
-=======
-        insert_user(int(hash(form.email.data))[1:], form.email.data, hash(form.password.data))
-        return redirect(url_for('user-nav.html'))
+    insert_user(int(hash(form.email.data))[1:], form.email.data, hash(form.password.data))
+    return redirect(url_for('user-nav.html'))
     return render_template('register.html', title='Register', form=form)
 
-
+# Login Page
 @app.route("/login")
 def login():
     form = LoginForm()
     if form.validate_on_submit():
         if find_user(int(hash(form.email.data))[1:], form.email.data, hash(form.password.data)):
+<<<<<<< HEAD
+            global id 
+=======
             global id
+>>>>>>> 398a3a19ffce6d11ba9d06f71775c34543fb26ef
             id = int(hash(form.email.data))[1:]
             return redirect(url_for('home.html'))
         else:
             flash(f'No account found for {form.email.data} with the given password')
             return redirect('/login')
 
->>>>>>> master
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

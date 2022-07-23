@@ -82,27 +82,21 @@ def is_question(question):
         return False
     return True
 
-<<<<<<< HEAD
-def get_answer(question):
-=======
-
 def get_answer(question, user):
->>>>>>> 0fac7be69ba1ecbb9761a7c3e1ee68138d308718
     if not is_question(question):
         return False
     url = 'https://8ball.delegator.com/magic/JSON/'
     response = requests.get(url + question)
     data = response.json()
+    pprint.pprint(data)
+    return data['magic']
     db_file = 'database.db'
     create_tables(db_file)
     return data['magic']['answer']
 
-<<<<<<< HEAD
-=======
+
 def update_count():
     if is_question:
         count + 1
     if count == 7:
         AlertDescription("last question for the day/session")
-
->>>>>>> master
