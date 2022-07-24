@@ -1,6 +1,6 @@
 import requests
 import sqlite3
-import time
+from datetime import date
 
 def get_connection(db_file):
     try:
@@ -10,60 +10,71 @@ def get_connection(db_file):
         exit()
     return conn
 
-def get_history(id):
+def get_history(user_id):
     conn = get_connection('database.db')
     cursor = conn.cursor()
-    command = ("SELECT * FROM questions WHERE id=?;")
-    cursor.execute(command, id)
+    command = ("SELECT * FROM questions WHERE user_id=?;")
+    cursor.execute(command, user_id)
     rows = cursor.fetchall()
     data = []
     for row in rows:
         data.append(row)
+    return data
 
 def create_tables():
     conn = get_connection('database.db')
     cursor = conn.cursor()
     users_command = ("CREATE TABLE IF NOT EXISTS users(" +
-                "id integer" +
-                "email text" +
-                "hashed_passwords text);")
+                "id integer primary key autoincrement," +
+                "email text," +
+                "password text);")
     questions_command = ("CREATE TABLE IF NOT EXISTS questions(" +
-                "id integer" +
-                "user_id integer"
-                "question text" +
-                "answer text" +
+                "id integer primary key autoincrement," +
+                "user_id integer,"
+                "question text," +
+                "answer text," +
                 "date text);")
     cursor.execute(users_command)
     cursor.execute(questions_command)
     conn.commit()
 
 
-def insert_user(id, email, hashed_pswd):
+def insert_user(email, pswd):
     conn = get_connection('database.db')
     cursor = conn.cursor()
-    command = ("INSERT INTO users(id, email, hashed_password)" +
-                "VALUES(?, ?, ?);")
-    cursor.execute(command, (id, email, hashed_pswd))
+    command = ("INSERT INTO users(email, password)" +
+                "VALUES(?, ?);")
+    cursor.execute(command, (email, pswd))
     conn.commit()
 
 
-def find_user(id, email, hashed_pswd):
+def find_user(email, pswd):
     conn = get_connection('database.db')
     cursor = conn.cursor()
-    command = ("SELECT * FROM users WHERE id=?;")
+    command = ("SELECT * FROM users WHERE email=?;")
     cursor.execute(command)
     row = cursor.fetchall()[0]
-    if row[1] == email and row[2] == hashed_pswd:
+    if row[1] == email and row[2] == pswd:
         return True
     return False
 
 
-def insert_question(id, user_id, question, answer, date):
+def user_exists(email):
     conn = get_connection('database.db')
     cursor = conn.cursor()
-    command = ("INSERT INTO questions(id, user_id, question, answer, date)" +
-                "VALUES(?, ?, ?, ?, ?);")
-    cursor.execute(command, user_id, question, answer, date, id)
+    command = ("SELECT * FROM users WHERE email=?;")
+    cursor.execute(command, (email,))
+    if len(cursor.fetchall()) > 0:
+        return True
+    return False
+
+
+def insert_question(id, user_id, question, answer):
+    conn = get_connection('database.db')
+    cursor = conn.cursor()
+    command = ("INSERT INTO questions(user_id, question, answer, date)" +
+                "VALUES(?, ?, ?, ?);")
+    cursor.execute(command, (user_id, question, answer, date.today()))
     conn.commit()
 
 
