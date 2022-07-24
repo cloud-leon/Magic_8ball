@@ -1,14 +1,14 @@
 import sys
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from forms import RegistrationForm, LoginForm, QuestionForm
-from flask_behind_proxy import FlaskBehindProxy
+#from flask_behind_proxy import FlaskBehindProxy
 
-sys.path.insert(0, '/home/codio/workspace/Magic_8ball/model')
+sys.path.insert(0, '../model')
 from GetAnswer import create_tables, insert_user, find_user, insert_question, get_history, get_answer
 
 app = Flask(__name__)
-proxied = FlaskBehindProxy(app)
-app.config['SECRET_KEY'] = ''
+#proxied = FlaskBehindProxy(app)
+app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 
 # App Home Page; Search bar and results
@@ -21,12 +21,12 @@ def search():
 # Page to register for an account
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
+    create_tables()
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        insert_user(hash(request.form['email'][1:]), request.form['email'], hash(request.form['password']))
         flash(f'Account created for {form.email.data}!', 'success')
-        insert_user(int(hash(form.email.data))[1:], form.email.data, hash(form.password.data))
         return redirect(url_for('user-nav.html'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('register.html', title='Register')
 
 
 @app.route("/login")
