@@ -75,6 +75,10 @@ def user_exists(email):
 
 
 def insert_question(user_id, question, answer):
+    if answer == 'This is not a valid question':
+        print('returning')
+        return
+    print('not returning')
     conn = get_connection('database.db')
     cursor = conn.cursor()
     command = ("INSERT INTO questions(user_id, question, answer, date)" +
@@ -85,7 +89,7 @@ def insert_question(user_id, question, answer):
 
 def is_question(question):
     question_words = ['will', 'is', 'did', 'would', "who", "what", "where", "when", 
-    "how", "why", "can", "may", "won't","doesn't"]
+    "how", "why", "can", "may", "won't","doesn't", 'should']
     for word in question_words:
         if word in str(question).lower():
             has_question_word = True

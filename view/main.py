@@ -15,9 +15,12 @@ create_tables()
 @app.route("/", methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        answer = get_answer(request.form['question'])
-        return render_template('home.html', subtitle='Home Page', text='This is the home page', answer=answer)
-    return render_template('home.html', subtitle='Home Page', text='This is the home page')
+        question = request.form['question']
+        if '?' not in question:
+            question += '?'
+        answer = get_answer(question)
+        return render_template('home.html', subtitle='Home Page', text='This is the home page', question=question, answer=answer)
+    return render_template('home.html', subtitle='Home Page', text='This is the home page', question='What does the universe have in store for you?', answer='Hit guide me to find out!')
    
 
 # Page to register for an account
@@ -34,6 +37,7 @@ def register():
         return redirect(url_for('user'))
     return render_template('register.html', title='Register')
 
+
 # User Home Page
 @app.route("/user", methods=['GET', 'POST'])
 def user_home():
@@ -43,10 +47,13 @@ def user_home():
         flash("You must be logged in to reach this page")
         return redirect(url_for('home'))
     if request.method == 'POST' and 'question' in request.form:
-        answer = get_answer(request.form['question'])
-        insert_question(id, request.form['question'], answer)
-        return render_template('user-page.html', answer=answer, data=data)
-    return render_template('user-page.html',  data=data)
+        question = request.form['question']
+        if '?' not in question:
+            question += '?'
+        answer = get_answer(question)
+        insert_question(id, question, answer)
+        return render_template('user-page.html', question=question, answer=answer, data=data)
+    return render_template('user-page.html',  data=data, question='What does the universe have in store for you?', answer='Hit guide me to find out!')
 
     
 
@@ -72,8 +79,12 @@ def user():
         flash("You must be logged in to reach this page")
         return redirect(url_for('home'))
     if request.method == 'POST' and 'question' in request.form:
+        question = request.form['question']
+        if '?' not in question:
+            question.append('?')
+        print(question)
         answer = get_answer(request.form['question'])
-        insert_question(id, request.form['question'], answer)
+        insert_question(id, question, answer)
         return render_template('user.html', subtitle='User Page', text='This is your personal page', answer=answer, data=data)
     return render_template('user.html', subtitle='User Page', text='This your personal page', data=data)
 

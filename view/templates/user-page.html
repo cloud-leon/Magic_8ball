@@ -15,20 +15,21 @@
     <div class="div-user-space">
         <h1 class="heading">The Universe Welcomes you!</h1>
         <div class="div-user-qs">
-        <p class="caption">You can ask the ball more questions. What question do you have for the Great8 ball?</p>
+        <p class="caption">You can ask the ball more questions. What question do you have for the Great 8ball?</p>
         <form method="POST" action="">
             <input id="question" name="question" type="text" class="text-field" maxlength="75" placeholder="Will these new shoes I want fit in a smaller size?" required>
-            <input type="submit" class="sumbit-button" value="ENTER">
+            <input type="submit" class="sumbit-button" value="Guide Me">
             </form>
         </div>
         <div class="div-past-qs">
-            <h1 class="history">
+            <div class="answer_2">
+                {{question}}<br>
                 {{answer}}
-            </h1>
+            </div>
             <p class="history">
-            <b>Here is the history of your questions!</b><br>
+            Here is the history of your questions!<br>
             {% for row in data %}
-            {{row[2]}} &emsp; &emsp; {{row[3]}} &emsp; &emsp; {{row[4]}}
+            On {{row[4]}} you asked "{{row[2]}}"" and the universe replied: "{{row[3]}}"
             <br>
             {% endfor %}
             </p>
