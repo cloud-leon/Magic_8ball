@@ -7,14 +7,14 @@ def get_connection(db_file):
         conn = sqlite3.connect(db_file)
     except Error:
         print(str(db_file + ' file not found'))
-        exit()
+        return None
     return conn
 
 def get_history(user_id):
     conn = get_connection('database.db')
     cursor = conn.cursor()
     command = ("SELECT * FROM questions WHERE user_id=?;")
-    cursor.execute(command, user_id)
+    cursor.execute(command, (user_id,))
     rows = cursor.fetchall()
     data = []
     for row in rows:
@@ -52,10 +52,11 @@ def find_user(email, pswd):
     conn = get_connection('database.db')
     cursor = conn.cursor()
     command = ("SELECT * FROM users WHERE email=?;")
-    cursor.execute(command)
+    cursor.execute(command, (email,))
     row = cursor.fetchall()[0]
+    print(row)
     if row[1] == email and row[2] == pswd:
-        return True
+        return row[0]
     return False
 
 
@@ -69,7 +70,7 @@ def user_exists(email):
     return False
 
 
-def insert_question(id, user_id, question, answer):
+def insert_question(user_id, question, answer):
     conn = get_connection('database.db')
     cursor = conn.cursor()
     command = ("INSERT INTO questions(user_id, question, answer, date)" +
@@ -79,25 +80,22 @@ def insert_question(id, user_id, question, answer):
 
 
 def is_question(question):
-    question_words = ['will', 'is', 'did', 'would']
+    question_words = ['will', 'is', 'did', 'would', 'should', 'does']
     for word in question_words:
         if word in str(question).lower():
             has_question_word = True
             break
         has_question_word = False
-    if '?' not in str(question) or not has_question_word:
-        print("wrong")
-        return False
-    return True
+    print(has_question_word)
+    return has_question_word
 
 
-def get_answer(question, user):
+def get_answer(question):
     if not is_question(question):
-        return False
+        return 'This is not a valid question'
     url = 'https://8ball.delegator.com/magic/JSON/'
     response = requests.get(url + question)
     data = response.json()
-    db_file = 'database.db'
-    create_tables(db_file)
+    create_tables()
     return data['magic']['answer']
 

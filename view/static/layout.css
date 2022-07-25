@@ -82,6 +82,11 @@ p {
     display: block;
 }
 
+.answer {
+    overflow: visible;
+    color: white;
+}
+
 /* Question Form */
 
 span:hover + .div-8ball {

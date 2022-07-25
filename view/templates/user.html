@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Magik8Ball Home Page</title>
+    <title>Magik8Ball User Page</title>
     <link type="text/css" rel="stylesheet" href="../static/layout.css">
 </head>
 <body class="background">
@@ -18,14 +18,20 @@
     <span>
     <div class="div-8ball">
         <div class="qform">
-            <form action="">
+            <form method="POST" action="">
                     <label for="field">Question:</label>
-                    <input type="text" class="text-field" maxlength="75" placeholder="Should I buy the red version of my favorite shirt?" required>
+                    <input id='question' name='question' type="text" class="text-field" maxlength="75" placeholder="Should I buy the red version of my favorite shirt?" required>
                     <input type="submit" class="sumbit-button" value="Guide Me">
             </form>
         </div>
     </div>
+    <h1 class="answer">
+        {{answer}}
+    </h1>
+
+    {% for}
     </span>
+
 
     <script src="" type=""></script>
     <!-- <script src="js/webflow.js" type=""></script> -->

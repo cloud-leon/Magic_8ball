@@ -1,6 +1,5 @@
 import sys
 from flask import Flask, render_template, url_for, flash, redirect, request
-from forms import RegistrationForm, LoginForm, QuestionForm
 #from flask_behind_proxy import FlaskBehindProxy
 
 sys.path.insert(0, '../model')
@@ -13,8 +12,11 @@ create_tables()
 
 
 # App Home Page; Search bar and results
-@app.route("/")
-def search():
+@app.route("/", methods=['GET', 'POST'])
+def home():
+    if request.method == 'POST':
+        answer = get_answer(request.form['question'])
+        return render_template('home.html', subtitle='Home Page', text='This is the home page', answer=answer)
     return render_template('home.html', subtitle='Home Page', text='This is the home page')
    
 
@@ -27,35 +29,42 @@ def register():
             return redirect(url_for('login'))
         insert_user(request.form['email'], request.form['password'])
         flash('Account created for' + request.form['email'] + '!', 'success')
-        return redirect(url_for('user-nav.html'))
+        global id
+        id = find_user(request.form['email'])
+        return redirect(url_for('users'))
     return render_template('register.html', title='Register')
 
 
-@app.route("/login")
+@app.route("/login", methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        if find_user(int(hash(form.email.data))[1:], form.email.data, hash(form.password.data)):
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        print(find_user(request.form['email'], request.form['password']))
+        if find_user(request.form['email'], request.form['password']) != False:
             global id
-            id = int(hash(form.email.data))[1:]
-            return redirect(url_for('home.html'))
+            id = find_user(request.form['email'], request.form['password'])
+            return redirect(url_for('user'))
         else:
             flash(f'No account found for {form.email.data} with the given password')
-            return redirect(url_for('user-nav.html'))
-    return render_template('login.html', title='Login', form=form)
+            return redirect(url_for('home'))
+    return render_template('login.html', title='Login')
 
 
-@app.route("/user")
+@app.route("/user", methods=['GET', 'POST'])
 def user():
+    print(request.method, request.form.keys())
     try:
         data = get_history(id)
-    except error:
+        print('attempted to get history')
+    except:
         flash("You must be logged in to reach this page")
-        return redirect(url_for('home.html'))
-    form = QuestionForm
-    if form.validate_on_submit():
-        answer = get_answer(form.question.data)
-    return render_template('user-nav.html', title='User', form=form)
+        print('failed to get history')
+        return redirect(url_for('home'))
+    if request.method == 'POST' and 'question' in request.form:
+        print('form submitted')
+        answer = get_answer(request.form['question'])
+        insert_question(id, request.form['question'], answer)
+        return render_template('user.html', subtitle='User Page', text='This is your personal page', answer=answer)
+    return render_template('user.html', subtitle='User Page', text='This your personal page')
 
 
 if __name__ == '__main__':

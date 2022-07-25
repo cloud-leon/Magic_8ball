@@ -10,7 +10,10 @@ also has links to signup/login to account -->
 <body class="background">
     <!-- Login Button on Header -->
     <div class="div-tab">
-        <a href="" class="login-button">Login/Register</a>
+        <a href="/login" class="login-button">Login</a>
+    </div>
+    <div class="div-tab">
+        <a href="/register" class="login-button">Register</a>
     </div>
 
     <!-- Page Title and Instructions -->
@@ -24,13 +27,16 @@ also has links to signup/login to account -->
     <span>
     <div class="div-8ball">
         <div class="qform">
-            <form action="">
+            <form method="POST" action="">
                     <label for="field">Question:</label>
-                    <input type="text" class="text-field" maxlength="75" placeholder="Should I buy the red version of my favorite shirt?" required>
-                    <input type="submit" class="sumbit-button" value="Guide Me">
+                    <input id = "question" name = "question" type="text" class="text-field" maxlength="75" placeholder="Should I buy the red version of my favorite shirt?" required>
+                    <input type="submit" class="submit-button" value="Guide Me">
             </form>
         </div>
     </div>
+    <h1 class="answer">
+        {{answer}}
+    </h1>
     </span>
 
     <script src="" type=""></script>
