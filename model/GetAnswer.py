@@ -53,8 +53,10 @@ def find_user(email, pswd):
     cursor = conn.cursor()
     command = ("SELECT * FROM users WHERE email=?;")
     cursor.execute(command, (email,))
-    row = cursor.fetchall()[0]
-    print(row)
+    rows = cursor.fetchall()
+    if len(rows) == 0:
+        return False
+    row = rows[0]
     if row[1] == email and row[2] == pswd:
         return row[0]
     return False

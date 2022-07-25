@@ -38,13 +38,12 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
-        print(find_user(request.form['email'], request.form['password']))
         if find_user(request.form['email'], request.form['password']) != False:
             global id
             id = find_user(request.form['email'], request.form['password'])
             return redirect(url_for('user'))
         else:
-            flash(f'No account found for {form.email.data} with the given password')
+            flash(f'No account found for with the given email password')
             return redirect(url_for('home'))
     return render_template('login.html', title='Login')
 
@@ -54,17 +53,14 @@ def user():
     print(request.method, request.form.keys())
     try:
         data = get_history(id)
-        print('attempted to get history')
     except:
         flash("You must be logged in to reach this page")
-        print('failed to get history')
         return redirect(url_for('home'))
     if request.method == 'POST' and 'question' in request.form:
-        print('form submitted')
         answer = get_answer(request.form['question'])
         insert_question(id, request.form['question'], answer)
-        return render_template('user.html', subtitle='User Page', text='This is your personal page', answer=answer)
-    return render_template('user.html', subtitle='User Page', text='This your personal page')
+        return render_template('user.html', subtitle='User Page', text='This is your personal page', answer=answer, data=data)
+    return render_template('user.html', subtitle='User Page', text='This your personal page', data=data)
 
 
 if __name__ == '__main__':

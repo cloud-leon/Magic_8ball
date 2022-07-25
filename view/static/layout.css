@@ -2,7 +2,7 @@
 .background {
     overflow: visible;
     background-image: url("backgroundimg.jpg");
-    background-position: 50% 50%;
+    background-position: 10% 10%;
     background-size: cover;
     background-repeat: no-repeat;
 }
