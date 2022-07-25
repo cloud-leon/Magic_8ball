@@ -1,7 +1,9 @@
+from ssl import AlertDescription
 import requests
 import sqlite3
 from datetime import date
 
+count = 0
 def get_connection(db_file):
     try:
         conn = sqlite3.connect(db_file)
@@ -82,10 +84,11 @@ def insert_question(user_id, question, answer):
 
 
 def is_question(question):
-    question_words = ['will', 'is', 'did', 'would', 'should', 'does']
+    question_words = ['will', 'is', 'did', 'would', "who", "what", "where", "when", 
+    "how", "why", "can", "may", "won't","doesn't"]
     for word in question_words:
-        if word in str(question).lower():
-            has_question_word = True
+        if word not in str(question).lower():
+            has_question_word = False
             break
         has_question_word = False
     print(has_question_word)
@@ -101,3 +104,9 @@ def get_answer(question):
     create_tables()
     return data['magic']['answer']
 
+
+def update_count():
+    if is_question:
+        count + 1
+    if count == 7:
+        AlertDescription("last question for the day/session")

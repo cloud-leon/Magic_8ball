@@ -52,7 +52,6 @@
     font-size: 52px;
     font-style: normal;
     text-align: center;
-    text-shadow: 1px 1px 6px #000;
     line-height: 0px;
 }
 
@@ -73,13 +72,13 @@ p {
     max-width: 400px;
     min-height: 400px;
     min-width: none;
-    margin: 40px auto 15px auto;
-    padding: auto auto auto auto;
+    margin: 15px auto;
     border: 2px solid rgba(122, 113, 255, 0.61);
     border-radius: 20rem;
     background-color: #000;
     font-family: Varela, sans-serif;
     display: block;
+    padding: 10px;
 }
 
 .answer {
@@ -87,15 +86,47 @@ p {
     color: white;
 }
 
-/* Question Form */
-
-span:hover + .div-8ball {
-  display: block;
-  background-color: pink;
+.div-whiteball {
+    width: auto;
+    height: auto;
+    max-width: 250px;
+    min-height: 250px;
+    border-radius: 20rem;
+    background-color: #fff;
+    display: block;
+    margin: 65px auto;
+    padding: 10px;
 }
+
+.img {
+    content: url("eightball.png");
+    width: 50%; 
+    height: 50%;
+    display: block;
+    margin: 60px auto;
+}
+
+
+/* Question Form */
 
 .qform {
     padding-top: 30px;
+    display: none;
+}
+
+.div-8ball:not(:hover) > .div-whiteball{
+    display: block;
+}
+
+.div-8ball:not(:hover) > .qform {
+    display: none;
+}
+
+.div-8ball:hover > .div-whiteball {
+    display: none;
+}
+
+.div-8ball:hover > .qform {
     display: block;
 }
 
@@ -172,25 +203,4 @@ input[type=submit]:hover {
   outline-color: #fff;
   border: 2px;
 
-}
-
-/* TODO: fix size of ball */
-.div-whiteball {
-    width: auto;
-    height: auto;
-    max-width: 220px;
-    min-height: 220px;
-    margin: auto;
-    border-radius: 20rem;
-    background-color: #fff;
-}
-
-/* TODO: Replace with hover functionality */
-.div-mv-ball {
-    -webkit-transform:translate3d(0, -310px, 0px);
-    scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-    -moz-transform:translate3d(0, -310px, 0px) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-    -ms-transform:translate3d(0, -310px, 0px) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-    transform:translate3d(0, -310px, 0px) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-    transform-style:preserve-3d;
 }
