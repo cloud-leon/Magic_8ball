@@ -87,11 +87,10 @@ def is_question(question):
     question_words = ['will', 'is', 'did', 'would', "who", "what", "where", "when", 
     "how", "why", "can", "may", "won't","doesn't"]
     for word in question_words:
-        if word not in str(question).lower():
-            has_question_word = False
+        if word in str(question).lower():
+            has_question_word = True
             break
         has_question_word = False
-    print(has_question_word)
     return has_question_word
 
 

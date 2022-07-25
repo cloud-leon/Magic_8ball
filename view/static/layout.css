@@ -86,6 +86,16 @@ p {
     color: white;
 }
 
+.answers {
+    color:#000;
+    overflow: visible;
+}
+
+.history {
+    color:#000;
+    text-align: justify;
+}
+
 .div-whiteball {
     width: auto;
     height: auto;
