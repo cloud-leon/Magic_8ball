@@ -1,20 +1,16 @@
-<!-- Home page where the user can ask their question; 
-also has links to signup/login to account -->
-
+<!-- User Account Page -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Magik8Ball Home Page</title>
+    <title>Magik8Ball User Page</title>
     <link type="text/css" rel="stylesheet" href="../static/layout.css">
 </head>
 <body class="background">
-    <!-- Login Button on Header -->
     <div class="div-tab">
-        <a href="/login" class="login-button">Login</a>
+        <a href="/login" class="login-button">Switch account</a>
     </div>
     <div class="div-tab">
-        <a href="/register" class="login-button">Register</a>
-
+        <a href="/" class="login-button">Log out</a>
     </div>
 
     <!-- Page Title and Instructions -->
@@ -27,20 +23,27 @@ also has links to signup/login to account -->
     <!-- 8ball with submission form when hovering -->
     <span>
     <div class="div-8ball">
-        <div class="div-whiteball">
-            <div class="img"></div>
-        </div>
         <div class="qform">
             <form method="POST" action="">
                     <label for="field">Question:</label>
-                    <input id = "question" name = "question" type="text" class="text-field" maxlength="75" placeholder="Should I buy the red version of my favorite shirt?" required>
-                    <input type="submit" class="submit-button" value="Guide Me">
+                    <input id='question' name='question' type="text" class="text-field" maxlength="75" placeholder="Should I buy the red version of my favorite shirt?" required>
+                    <input type="submit" class="sumbit-button" value="Guide Me">
             </form>
         </div>
     </div>
     <h1 class="answer">
         {{answer}}
     </h1>
+    <p class="history">
+        {% for row in data %}
+            {{row[2]}} &ensp; {{row[3]}} &ensp; {{row[4]}}
+            <br>
+        {% endfor %}
+    </p>
     </span>
+
+
+    <script src="" type=""></script>
+    <!-- <script src="js/webflow.js" type=""></script> -->
 </body>
 </html>
