@@ -84,6 +84,52 @@ p {
 .answer {
     overflow: visible;
     color: white;
+    text-align: center;
+    text-shadow: #000;
+    font-size: 2.5em;
+    text-transform: capitalize;
+    padding: auto;
+    background-color: #000;
+    width: 50%;
+    margin: auto;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.answer_2 {
+    overflow: visible;
+    color: black;
+    text-align: center;
+    text-shadow: #000;
+    font-size: 2.5em;
+    text-transform: capitalize;
+    padding: auto;
+    background-color: white;
+    width: 50%;
+    margin: auto;
+    font-family: 'Varela Round', sans-serif;
+}
+
+,div-past-qs {
+    font-family: 'Varela Round', sans-serif;
+}
+
+.registration_form {
+    margin: auto;
+    width: 10%;
+    padding-top: 10px;
+}
+
+.answers {
+    color:#000;
+    overflow: visible;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.history {
+    color:#000;
+    text-align: justify;
+    overflow-y: auto;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .div-whiteball {
